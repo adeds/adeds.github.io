@@ -1,0 +1,52 @@
+[
+  {
+    "id": "staffinc",
+    "order": 1,
+    "company": "Staffinc Group",
+    "companyBlurb": "Result-driven workforce solutions — 25,000+ workers across 350+ cities in Indonesia.",
+    "role": "Mobile Engineer (iOS & Android)",
+    "start": "2020-03",
+    "end": null,
+    "location": "Jakarta, Indonesia",
+    "tracks": [
+      { "platform": "android", "label": "Android", "since": "2020-03" },
+      { "platform": "ios", "label": "iOS", "since": "2022-06" }
+    ],
+    "summary": "I build the field-worker app on both iOS and Android, covering attendance, payroll self-service, and digital field reporting. I started on Android in 2020 and added iOS in 2022.",
+    "highlights": [
+      "Built the company design system from scratch for iOS (UIKit + SwiftUI, shipped as a Swift package) and Android (Jetpack Compose), with a playground app and CI-published releases.",
+      "Modularized the iOS app into Swift Package feature modules (auth, home, account, attendance, submission) on a Clean Architecture split of data, domain, and presentation.",
+      "Built a server-driven UI engine that renders native form widgets from a JSON Schema, with offline-first sync so field workers can submit reports without a connection.",
+      "Raised unit-test coverage across 6+ modules and replaced a code-generated mocking framework with lightweight manual mocks, guarded by coverage checks in CI.",
+      "Adopted AI-assisted development in late 2025. I wrote agent instruction files for 4 repositories and now work daily with Claude Code and OpenCode; in 2026 I merged about 1.4× more PRs per month while review and test gates stayed in place."
+    ]
+  },
+  {
+    "id": "uphike",
+    "order": 2,
+    "company": "Uphike",
+    "role": "Android Developer",
+    "start": "2019-06",
+    "end": "2019-11",
+    "summary": "Delivered Android apps for agency clients on short, flexible engagements."
+  },
+  {
+    "id": "motoran",
+    "order": 3,
+    "company": "Motoran Technology",
+    "role": "Junior Developer",
+    "start": "2018-11",
+    "end": "2019-06",
+    "summary": "Built the Android app for an online motorcycle-financing platform that connected used-bike sellers with buyers and lenders, with automated application and approval."
+  },
+  {
+    "id": "freelance",
+    "order": 4,
+    "company": "Freelance",
+    "role": "Mobile Developer",
+    "start": "2017-12",
+    "end": "2018-11",
+    "location": "Yogyakarta, Indonesia",
+    "summary": "Built Android apps for small businesses, including a point-of-sale app for MSMEs."
+  }
+]

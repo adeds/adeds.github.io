@@ -1,0 +1,9 @@
+[
+  { "id": "ios", "order": 1, "label": "iOS", "items": ["Swift", "UIKit", "SwiftUI", "RxSwift", "Swift Package Manager", "Core Data", "Alamofire"] },
+  { "id": "android", "order": 2, "label": "Android", "items": ["Kotlin", "Jetpack Compose (Material 3)", "Coroutines & Flow", "Orbit MVI", "Koin", "Room", "Retrofit / OkHttp", "WorkManager"] },
+  { "id": "architecture", "order": 3, "label": "Architecture", "items": ["Clean Architecture", "Modularization", "Design Systems", "Server-Driven UI (JSON Schema)", "Offline-first sync", "Kotlin Multiplatform"] },
+  { "id": "quality", "order": 4, "label": "Testing & quality", "items": ["XCTest", "JUnit", "Mockito", "SwiftLint", "ktlint", "Coverage (Slather, JaCoCo)"] },
+  { "id": "cicd", "order": 5, "label": "CI/CD & release", "items": ["GitHub Actions", "GitLab CI/CD", "Fastlane", "Firebase App Distribution", "Play Store publishing", "GitHub Packages"] },
+  { "id": "observability", "order": 6, "label": "Observability", "items": ["Firebase Crashlytics", "Sentry", "Datadog RUM"] },
+  { "id": "ai", "order": 7, "label": "AI-assisted development", "items": ["Claude Code", "OpenCode", "Agent instruction files (AGENTS.md)"] }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "fastlane-zero-to-auto",
+    "title": "Fastlane: From Zero to Auto",
+    "date": "2022-01-19",
+    "publication": "Staffinc Tech",
+    "summary": "Automating Android builds and Play Store internal releases with GitLab CI and Fastlane, with Slack notifications for QA.",
+    "href": "https://medium.com/sampingan-tech/fastlane-from-zero-to-auto-f8cb140f086f"
+  },
+  {
+    "id": "coroutine-fundamental",
+    "title": "Coroutine Fundamental",
+    "date": "2022-01-18",
+    "publication": "Staffinc Tech",
+    "summary": "An introduction to Kotlin coroutines on Android: scopes, suspend functions, Job, Deferred, and exception handling.",
+    "href": "https://medium.com/sampingan-tech/coroutine-fundamental-2f50d5f26284"
+  },
+  {
+    "id": "datastore-migration",
+    "title": "Migrating SharedPreferences with Jetpack DataStore",
+    "date": "2021-05-18",
+    "publication": "Staffinc Tech",
+    "summary": "Moving from SharedPreferences to Jetpack DataStore step by step, including SharedPreferencesMigration.",
+    "href": "https://medium.com/sampingan-tech/migrasi-sharedpreferences-dengan-jetpack-datastore-16469e797568"
+  }
+]

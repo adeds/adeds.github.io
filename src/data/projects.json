@@ -1,0 +1,46 @@
+[
+  {
+    "id": "parallax-orientation",
+    "order": 1,
+    "name": "ParallaxOrientationCompose",
+    "platform": "android",
+    "year": 2022,
+    "stars": 7,
+    "description": "A card parallax effect driven by the phone's orientation sensors, built with Jetpack Compose and SensorManager. It also inspired the tilt effect on this page.",
+    "stack": ["Kotlin", "Jetpack Compose", "SensorManager"],
+    "links": [{ "label": "Source", "href": "https://github.com/adeds/ParallaxOrientationCompose" }]
+  },
+  {
+    "id": "shared-module-kmm",
+    "order": 2,
+    "name": "SharedModuleKmmLibs",
+    "platform": "cross",
+    "year": 2022,
+    "description": "Business logic shared between Android and iOS with Kotlin Multiplatform, shipped to iOS as an XCFramework through Swift Package Manager and used by a companion Android app.",
+    "stack": ["Kotlin Multiplatform", "XCFramework", "Swift Package Manager"],
+    "links": [
+      { "label": "Library", "href": "https://github.com/adeds/SharedModuleKmmLibs" },
+      { "label": "Android consumer", "href": "https://github.com/adeds/TestSharedModule" }
+    ]
+  },
+  {
+    "id": "gitlab-slack-webhook",
+    "order": 3,
+    "name": "Gitlab-Slack-Webhook",
+    "platform": "tooling",
+    "year": 2021,
+    "description": "A small Ktor service that receives GitLab webhooks and posts them to Slack as Block Kit messages. It was a side project from the time I was automating mobile release notifications.",
+    "stack": ["Kotlin", "Ktor", "Slack Block Kit"],
+    "links": [{ "label": "Source", "href": "https://github.com/adeds/Gitlab-Slack-Webhook" }]
+  },
+  {
+    "id": "this-site",
+    "order": 4,
+    "name": "adeds.github.io",
+    "platform": "web",
+    "year": 2026,
+    "description": "This portfolio. A phone mockup follows your scroll, a switch changes the whole page between iOS and Android design languages, and the device tilts with your mouse or gyroscope.",
+    "stack": ["Astro", "TypeScript", "CSS"],
+    "links": [{ "label": "Source", "href": "https://github.com/adeds/adeds.github.io" }]
+  }
+]

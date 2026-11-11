@@ -1,0 +1,12 @@
+---
+/** iOS / Android design-language switch. State lives on <html data-skin>. */
+interface Props {
+  id?: string;
+}
+const { id = 'skin-toggle' } = Astro.props;
+---
+<div class="skin-toggle" role="radiogroup" aria-label="Design language" id={id}>
+  <button type="button" role="radio" data-skin-option="ios" aria-checked="false">iOS</button>
+  <button type="button" role="radio" data-skin-option="android" aria-checked="false">Android</button>
+  <span class="skin-toggle__thumb" aria-hidden="true"></span>
+</div>

@@ -1,0 +1,261 @@
+---
+import { getCollection } from 'astro:content';
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Phone from '../components/Phone.astro';
+import SkinToggle from '../components/SkinToggle.astro';
+import Icon from '../components/Icon.astro';
+import photo from '../assets/ade-at-work.webp';
+import { site } from '../site.config';
+import { formatRange, formatDate, monthsBetween } from '../lib/format';
+
+const byOrder = <T extends { data: { order: number } }>(a: T, b: T) => a.data.order - b.data.order;
+const experience = (await getCollection('experience')).sort(byOrder);
+const projects = (await getCollection('projects')).sort(byOrder);
+const writing = (await getCollection('writing')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+const skills = (await getCollection('skills')).sort(byOrder);
+
+const [main, ...earlier] = experience;
+const span = monthsBetween(main.data.start, main.data.end);
+const lanes = (main.data.tracks ?? []).map((t) => ({
+  ...t,
+  offset: (monthsBetween(main.data.start, t.since) / span) * 100,
+}));
+const startYear = Number(main.data.start.slice(0, 4));
+const endYear = new Date().getFullYear();
+const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i);
+
+const tabs = [
+  { id: 'about', label: 'About', icon: 'person' },
+  { id: 'work', label: 'Work', icon: 'briefcase' },
+  { id: 'projects', label: 'Projects', icon: 'grid' },
+  { id: 'writing', label: 'Writing', icon: 'doc' },
+  { id: 'skills', label: 'Skills', icon: 'spark' },
+] as const;
+
+const platformLabel: Record<string, string> = {
+  ios: 'iOS',
+  android: 'Android',
+  cross: 'Cross-platform',
+  tooling: 'Tooling',
+  web: 'Web',
+};
+const title = `${site.name} — ${site.headline} (${site.platforms})`;
+const description = site.tagline;
+---
+<Base title={title} description={description}>
+  <a class="skip-link" href="#about">Skip to content</a>
+
+  <header class="topbar">
+    <a class="topbar__brand" href="#top" aria-label={`${site.name}, back to top`}>
+      <span class="monogram" aria-hidden="true">AD</span>
+      <span class="topbar__name">{site.name}</span>
+    </a>
+    <span class="topbar__title" data-section-title aria-hidden="true"></span>
+    <nav class="topbar__nav" aria-label="Sections">
+      {tabs.map((t) => <a href={`#${t.id}`} data-nav={t.id}>{t.label}</a>)}
+    </nav>
+    <SkinToggle />
+  </header>
+
+  <div class="shell">
+    <main class="content" id="top">
+      <!-- Hero -->
+      <section class="section hero" data-screen="hero" aria-labelledby="hero-title">
+        <div class="hero__orbs" data-gyro-layer aria-hidden="true"><span></span><span></span></div>
+        <p class="eyebrow">{site.headline} · {site.platforms}</p>
+        <h1 id="hero-title" class="hero__title">{site.name}</h1>
+        <p class="hero__tagline">{site.tagline}</p>
+        <p class="hero__meta">{site.location}</p>
+        <div class="actions">
+          <a class="btn btn--primary" href="#contact">Get in touch</a>
+          <a class="btn btn--ghost" href={site.links.linkedin} rel="me noopener" target="_blank">LinkedIn <Icon name="external" size={16} /></a>
+          <a class="btn btn--ghost" href={site.links.github} rel="me noopener" target="_blank">GitHub <Icon name="external" size={16} /></a>
+          <a class="btn btn--ghost" href={site.links.medium} rel="me noopener" target="_blank">Medium <Icon name="external" size={16} /></a>
+        </div>
+        <p class="hero__hint">
+          <span class="hint-dot" aria-hidden="true"></span>
+          <span>This page speaks both languages. Switch between <b>iOS</b> and <b>Android</b> at the top.</span>
+        </p>
+        <button type="button" class="tilt-permission" data-tilt-permission hidden>Enable tilt</button>
+      </section>
+
+      <!-- About -->
+      <section class="section" id="about" data-screen="about" aria-labelledby="about-title">
+        <h2 id="about-title" class="section__title">About</h2>
+        <div class="about">
+          <figure class="about__photo">
+            <Picture
+              src={photo}
+              alt="Ade at a desk, chin resting on one hand, focused on a laptop screen in warm evening light."
+              widths={[360, 560, 840]}
+              sizes="(min-width: 960px) 280px, 100vw"
+              formats={['avif', 'webp']}
+              fallbackFormat="jpg"
+              loading="lazy"
+            />
+          </figure>
+          <div class="about__text">
+            {site.about.map((p) => <p>{p}</p>)}
+            <p class="muted small">{site.education}</p>
+          </div>
+        </div>
+        <dl class="stats">
+          {site.stats.map((s) => (
+            <div class="stat"><dt>{s.label}</dt><dd>{s.value}</dd></div>
+          ))}
+        </dl>
+      </section>
+
+      <!-- Experience -->
+      <section class="section" id="work" data-screen="work" aria-labelledby="work-title">
+        <h2 id="work-title" class="section__title">Experience</h2>
+
+        <article class="card job">
+          <header class="job__head">
+            <div>
+              <h3 class="job__company">{main.data.company}</h3>
+              <p class="job__role">{main.data.role}</p>
+            </div>
+            <p class="job__dates">{formatRange(main.data.start, main.data.end)}</p>
+          </header>
+          {main.data.companyBlurb && <p class="job__blurb muted">{main.data.companyBlurb}</p>}
+
+          <div class="lanes" role="img" aria-label="Timeline: Android since 2020, iOS added in 2022, both continuing to today.">
+            {lanes.map((l) => (
+              <div class="lane">
+                <span class="lane__label">{l.label}</span>
+                <span class="lane__track">
+                  <span class={`lane__bar lane__bar--${l.platform}`} style={`--from:${l.offset}%`}></span>
+                </span>
+              </div>
+            ))}
+            <div class="lane lane--axis" aria-hidden="true">
+              <span class="lane__label"></span>
+              <span class="lane__track lane__years">{years.map((y) => <span>{y}</span>)}</span>
+            </div>
+          </div>
+
+          <p class="job__summary">{main.data.summary}</p>
+          <ul class="highlights">
+            {main.data.highlights?.map((h) => <li>{h}</li>)}
+          </ul>
+        </article>
+
+        <ol class="earlier">
+          {earlier.map((e) => (
+            <li class="earlier__item">
+              <div class="earlier__head">
+                <h3>{e.data.company} <span class="muted">· {e.data.role}</span></h3>
+                <p class="job__dates">{formatRange(e.data.start, e.data.end)}</p>
+              </div>
+              <p class="muted">{e.data.summary}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <!-- Projects -->
+      <section class="section" id="projects" data-screen="projects" aria-labelledby="projects-title">
+        <h2 id="projects-title" class="section__title">Selected projects</h2>
+        <div class="projects">
+          {projects.map((p) => (
+            <article class="card project">
+              <div class="project__top">
+                <span class={`app-icon app-icon--${p.data.platform}`} aria-hidden="true">{p.data.name.charAt(0)}</span>
+                <span class="tag">{platformLabel[p.data.platform]} · {p.data.year}</span>
+                {p.data.stars ? (
+                  <span class="stars" aria-label={`${p.data.stars} GitHub stars`}><Icon name="star" size={14} />{p.data.stars}</span>
+                ) : null}
+              </div>
+              <h3 class="project__name">{p.data.name}</h3>
+              <p class="project__desc">{p.data.description}</p>
+              <ul class="chips chips--small" aria-label="Stack">{p.data.stack.map((s) => <li>{s}</li>)}</ul>
+              <div class="project__links">
+                {p.data.links.map((l) => (
+                  <a href={l.href} target="_blank" rel="noopener">{l.label} <Icon name="external" size={14} /></a>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- Writing -->
+      <section class="section" id="writing" data-screen="writing" aria-labelledby="writing-title">
+        <h2 id="writing-title" class="section__title">Writing</h2>
+        <ul class="posts">
+          {writing.map((w) => (
+            <li>
+              <a class="post" href={w.data.href} target="_blank" rel="noopener">
+                <span class="post__meta">{w.data.publication} · <time datetime={w.data.date}>{formatDate(w.data.date)}</time></span>
+                <span class="post__title">{w.data.title}</span>
+                <span class="post__summary muted">{w.data.summary}</span>
+                <span class="post__arrow" aria-hidden="true"><Icon name="arrow" size={18} /></span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- Skills -->
+      <section class="section" id="skills" data-screen="skills" aria-labelledby="skills-title">
+        <h2 id="skills-title" class="section__title">Skills</h2>
+        <div class="skills">
+          {skills.map((g) => (
+            <div class="skill-group">
+              <h3>{g.data.label}</h3>
+              <ul class="chips">{g.data.items.map((i) => <li>{i}</li>)}</ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section class="section contact" id="contact" data-screen="contact" aria-labelledby="contact-title">
+        <h2 id="contact-title" class="section__title section__title--big">Get in touch</h2>
+        <p class="contact__lead">Email is the fastest way to reach me.</p>
+        <div class="actions">
+          <button
+            type="button"
+            class="btn btn--primary"
+            data-email
+            data-u={site.emailParts.user.join('|')}
+            data-d={site.emailParts.domain.join('|')}
+          ><Icon name="mail" size={18} /> Email me</button>
+          <button type="button" class="btn btn--ghost" data-email-copy><Icon name="copy" size={18} /> <span data-copy-label>Copy address</span></button>
+        </div>
+        <p class="contact__links">
+          <a href={site.links.linkedin} target="_blank" rel="me noopener">LinkedIn</a>
+          <a href={site.links.github} target="_blank" rel="me noopener">GitHub</a>
+          <a href={site.links.medium} target="_blank" rel="me noopener">Medium</a>
+        </p>
+        <p class="sr-only" aria-live="polite" data-live></p>
+      </section>
+
+      <footer class="footer">
+        <p>© {endYear} {site.name}. Built with Astro.</p>
+        <p><a href="https://github.com/adeds/adeds.github.io" target="_blank" rel="noopener">Source on GitHub</a></p>
+      </footer>
+    </main>
+
+    <aside class="device-col" aria-hidden="true">
+      <div class="device-sticky">
+        <Phone experience={experience} projects={projects} writing={writing} skills={skills} />
+      </div>
+    </aside>
+  </div>
+
+  <nav class="tabbar" aria-label="Sections">
+    {tabs.map((t) => (
+      <a href={`#${t.id}`} class="tabbar__item" data-nav={t.id}>
+        <span class="tabbar__icon"><Icon name={t.icon} size={22} /></span>
+        <span class="tabbar__label">{t.label}</span>
+      </a>
+    ))}
+  </nav>
+
+  <script>
+    import '../scripts/app';
+  </script>
+</Base>

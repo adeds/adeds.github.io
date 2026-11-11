@@ -1,0 +1,48 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import '../styles/global.css';
+import { site } from '../site.config';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="en" data-skin="ios">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#0b0c0f" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f5f6f8" media="(prefers-color-scheme: light)" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="author" content={site.name} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>
+      // Pick the skin before first paint: saved choice, else the visitor's OS.
+      (function () {
+        var skin = null;
+        try { skin = localStorage.getItem('skin'); } catch (e) {}
+        if (skin !== 'ios' && skin !== 'android') {
+          skin = /Android/i.test(navigator.userAgent) ? 'android' : 'ios';
+        }
+        document.documentElement.dataset.skin = skin;
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
